@@ -1,15 +1,11 @@
 package models;
-
-class Nodo {
+public class Nodo {
     private Estudiante dato;
     private Nodo izq;
     private Nodo der;
 
     public Nodo(Estudiante dato) {
         this.dato = dato;
-    }
-
-    public Nodo() {
     }
 
     public Nodo getIzq() {
@@ -24,15 +20,11 @@ class Nodo {
         return dato;
     }
 
-    public void setDato(Estudiante dato) {
-        this.dato = dato;
+    public void setIzq(Nodo izq) {
+        this.izq = izq;
     }
 
-    public void setIzq(Nodo nodo) {
-        izq = nodo;
-    }
-
-    public void setDer(Nodo nodo) {
-        der = nodo;
+    public void setDer(Nodo der) {
+        this.der = der;
     }
 }

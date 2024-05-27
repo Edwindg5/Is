@@ -1,0 +1,11 @@
+edwin,201,activo
+jesus,211,inactivo
+
+Estadísticas:
+baja temporal: 0
+egresado: 0
+titulado: 0
+inactivo: 1
+baja definitiva: 0
+activo: 1
+baja académica: 0

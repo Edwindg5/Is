@@ -13,7 +13,7 @@ public class App {
             System.out.println("1. Agregar estudiante");
             System.out.println("2. Visualizar lista de tutorados");
             System.out.println("3. Visualizar estadísticas");
-            System.out.println("4. Salir");
+            System.out.println("4. Guardar información y salir");
             System.out.print("Seleccione una opción: ");
             opc = entrada.nextInt();
             entrada.nextLine();  // Limpiar el buffer
@@ -22,9 +22,23 @@ public class App {
                 case 1:
                     System.out.print("Nombre del estudiante: ");
                     String nombre = entrada.nextLine();
-                    System.out.print("Matrícula del estudiante: ");
-                    int matricula = entrada.nextInt();
-                    entrada.nextLine();  // Limpiar el buffer
+                    int matricula = 0;
+                    boolean matriculaValida = false;
+                    while (!matriculaValida) {
+                        System.out.print("Matrícula del estudiante: ");
+                        if (entrada.hasNextInt()) {
+                            matricula = entrada.nextInt();
+                            entrada.nextLine();  // Limpiar el buffer
+                            if (arbol.esMatriculaValida(matricula)) {
+                                matriculaValida = true;
+                            } else {
+                                System.out.println("Matrícula inválida o ya existente. Intente nuevamente.");
+                            }
+                        } else {
+                            System.out.println("Por favor, ingrese un número válido.");
+                            entrada.nextLine();  // Limpiar el buffer
+                        }
+                    }
                     System.out.print("Estatus del estudiante: ");
                     String estatus = entrada.nextLine();
                     arbol.agregarEstudiante(new Estudiante(nombre, matricula, estatus));

@@ -4,10 +4,13 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class ArbolBinario {
-    Nodo raiz;
+    private Nodo raiz;
+    private Set<Integer> matriculasExistentes = new HashSet<>();
 
     public void agregarEstudiante(Estudiante estudiante) {
         if (raiz == null) {
@@ -15,6 +18,7 @@ public class ArbolBinario {
         } else {
             agregarRecursivo(raiz, estudiante);
         }
+        matriculasExistentes.add(estudiante.getMatricula());
     }
 
     private void agregarRecursivo(Nodo actual, Estudiante estudiante) {
@@ -31,6 +35,15 @@ public class ArbolBinario {
                 agregarRecursivo(actual.getDer(), estudiante);
             }
         }
+    }
+
+    public boolean esMatriculaValida(int matricula) {
+        String matriculaStr = String.valueOf(matricula);
+        return (matriculaStr.startsWith("201") || matriculaStr.startsWith("203") ||
+                matriculaStr.startsWith("211") || matriculaStr.startsWith("213") ||
+                matriculaStr.startsWith("221") || matriculaStr.startsWith("223") ||
+                matriculaStr.startsWith("231") || matriculaStr.startsWith("233")) &&
+                !matriculasExistentes.contains(matricula);
     }
 
     public void visualizarListaTutorados() {
@@ -50,18 +63,18 @@ public class ArbolBinario {
         for (String estatus : new String[]{"activo", "inactivo", "baja definitiva", "baja académica", "baja temporal", "egresado", "titulado"}) {
             estadisticas.put(estatus, 0);
         }
-        contarEstatus(raiz, estadisticas);
+        preorden(raiz, estadisticas);
         for (String estatus : estadisticas.keySet()) {
             System.out.println(estatus + ": " + estadisticas.get(estatus));
         }
     }
 
-    private void contarEstatus(Nodo nodo, Map<String, Integer> estadisticas) {
+    private void preorden(Nodo nodo, Map<String, Integer> estadisticas) {
         if (nodo != null) {
-            contarEstatus(nodo.getIzq(), estadisticas);
             String estatus = nodo.getDato().getEstatus();
             estadisticas.put(estatus, estadisticas.get(estatus) + 1);
-            contarEstatus(nodo.getDer(), estadisticas);
+            preorden(nodo.getIzq(), estadisticas);
+            preorden(nodo.getDer(), estadisticas);
         }
     }
 
@@ -75,7 +88,7 @@ public class ArbolBinario {
             for (String estatus : new String[]{"activo", "inactivo", "baja definitiva", "baja académica", "baja temporal", "egresado", "titulado"}) {
                 estadisticas.put(estatus, 0);
             }
-            contarEstatus(raiz, estadisticas);
+            preorden(raiz, estadisticas);
             for (String estatus : estadisticas.keySet()) {
                 writer.write(estatus + ": " + estadisticas.get(estatus));
                 writer.newLine();
